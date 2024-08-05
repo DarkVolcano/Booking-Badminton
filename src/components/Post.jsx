@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment, useContext } from "react";
-import "../css/StyleDashboardAdmin.css";
+import "../css/Admin.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 
 const Post = () => {
   useEffect(() => {

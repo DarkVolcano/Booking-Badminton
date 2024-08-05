@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import "../css/StyleDashboardManager.css";
+import "../css/Manager.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 import { Rating } from "@aws-amplify/ui-react";
 
 const Book = () => {

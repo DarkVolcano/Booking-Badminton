@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import "../css/StyleDashboardManager.css";
-import { UserContext } from "../UserContext";
+import "../css/Manager.css";
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
 
 const DashboardManager = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Calendar } from "@progress/kendo-react-dateinputs";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 import { format } from "date-fns";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";

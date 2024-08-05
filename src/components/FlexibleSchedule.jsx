@@ -1,11 +1,11 @@
 import React, { useState, useContext, Fragment, useEffect } from "react";
-import "../css/StyleDashboardAdmin.css";
+import "../css/Admin.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 
 const FlexibleSchedule = () => {
   const { user, court } = useContext(UserContext);

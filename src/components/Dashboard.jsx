@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import "../css/StyleDashboardAdmin.css";
-import { UserContext } from "../UserContext";
+import "../css/Admin.css";
+import { UserContext } from "../context/UserContext";
 import Chart from "chart.js/auto";
 import axios from "axios";
 import { Row } from "react-bootstrap";

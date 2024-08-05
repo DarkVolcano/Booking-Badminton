@@ -1,7 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
-import "../css/StyleDashboardAdmin.css";
+import "../css/Admin.css";
 import React, { useContext } from "react";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 
 const Sidebar = () => {
   const { user, logout } = useContext(UserContext);

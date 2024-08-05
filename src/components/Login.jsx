@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";

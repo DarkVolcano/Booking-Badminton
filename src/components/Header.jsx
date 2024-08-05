@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import "../css/StyleHome.css";
-import { UserContext } from "../UserContext";
+import "../css/Home.css";
+import { UserContext } from "../context/UserContext";
 import "https://cdn.lordicon.com/lordicon.js";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -37,19 +37,34 @@ const Header = () => {
     };
   }, [dropdownOpen]);
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://localhost:7088/api/Accounts/${user.accountId}/Image`, {
+  //       responseType: "blob",
+  //     })
+  //     .then((response) => {
+  //       const url = URL.createObjectURL(response.data);
+  //       setUserImage(url);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching user image:", error);
+  //     });
+  // }, [user.accountId]);
   useEffect(() => {
-    axios
-      .get(`https://localhost:7088/api/Accounts/${user.accountId}/Image`, {
-        responseType: "blob",
-      })
-      .then((response) => {
-        const url = URL.createObjectURL(response.data);
-        setUserImage(url);
-      })
-      .catch((error) => {
-        console.error("Error fetching user image:", error);
-      });
-  }, [user.accountId]);
+    if (user && user.accountId) {
+      axios
+        .get(`https://localhost:7088/api/Accounts/${user.accountId}/Image`, {
+          responseType: "blob",
+        })
+        .then((response) => {
+          const url = URL.createObjectURL(response.data);
+          setUserImage(url);
+        })
+        .catch((error) => {
+          console.error("Error fetching user image:", error);
+        });
+    }
+  }, [user]);
 
   // useEffect(() => {
   //   if (user) {
