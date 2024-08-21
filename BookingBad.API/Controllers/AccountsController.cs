@@ -346,9 +346,42 @@ namespace BookingDemo.API.Controllers
             }
         }
 
+        [HttpPost("MicrosoftLogin")]
+        public async Task<IActionResult> MicrosoftLogin([FromBody] MicrosoftLoginRequest request)
+        {
+            try
+            {
+                var account = await accountServices.MicrosoftLoginAsync(request.Token);
+                return Ok(account);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+        /*
+        [HttpPost("MicrosoftLogin")]
+        public async Task<ActionResult<AccountDTO>> MicrosoftLogin([FromBody] string token)
+        {
+            try
+            {
+                var account = await accountServices.MicrosoftLoginAsync(token);
+                return Ok(account);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Microsoft login failed: {ex.Message}" });
+            }
+        }*/
+
     }
 
     public class GoogleLoginRequest
+    {
+        public string Token { get; set; }
+    }
+
+    public class MicrosoftLoginRequest
     {
         public string Token { get; set; }
     }

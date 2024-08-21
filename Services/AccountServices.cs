@@ -9,6 +9,9 @@ using System.Text;
 using Microsoft.Extensions.Caching.Memory;
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Services
 {
@@ -35,6 +38,8 @@ namespace Services
         bool UpdateBalanceByPayment(int paymentId);
 
         Task<AccountDTO> GoogleLoginAsync(string token);
+
+        Task<AccountDTO> MicrosoftLoginAsync(string token);
     }
     public class AccountServices : IAccountServices
     {
@@ -397,17 +402,15 @@ namespace Services
                     throw new Exception("Invalid Google user.");
                 }
 
-                // Check if the user exists in the database
                 var user = _unitOfWork.AccountRepo.GetAccountByEmail(payload.Email);
                 if (user == null)
                 {
-                    // Register new user
                     user = new Account
                     {
                         AccountName = payload.Name,
                         Email = payload.Email,
                         FullName = payload.Name,
-                        RoleId = 2, // default role, change if necessary
+                        RoleId = 2,
                         Status = true,
                         Balance = 0,
                         Image = image
@@ -434,6 +437,59 @@ namespace Services
             }
         }
 
+        public async Task<AccountDTO> MicrosoftLoginAsync(string token)
+        {
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+
+                // Extract email and name from various possible claims
+                var emailClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "preferred_username" || c.Type == "email" || c.Type == "upn");
+                var email = emailClaim?.Value;
+                var nameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "name" || c.Type == "given_name" || c.Type == "nickname");
+                var name = nameClaim?.Value;
+
+                if (string.IsNullOrEmpty(email))
+                {
+                    throw new Exception("Invalid Microsoft user. Email claim not found.");
+                }
+
+                var user = _unitOfWork.AccountRepo.GetAccountByEmail(email);
+                if (user == null)
+                {
+                    user = new Account
+                    {
+                        AccountName = name,
+                        Email = email,
+                        FullName = name,
+                        RoleId = 2, 
+                        Status = true,
+                        Balance = 0,
+                        Image = image
+                    };
+                    _unitOfWork.AccountRepo.Create(user);
+                    _unitOfWork.SaveChanges();
+                }
+
+                return new AccountDTO
+                {
+                    AccountId = user.AccountId,
+                    AccountName = user.AccountName,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    RoleId = user.RoleId,
+                    Status = user.Status,
+                    Balance = user.Balance,
+                    Image = GetAccountImagePath(user.AccountId),
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Microsoft login failed: {ex.Message}");
+            }
+        }
 
     }
+
 }
